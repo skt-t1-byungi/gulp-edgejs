@@ -1,5 +1,6 @@
 # gulp-edgejs
-Edge.js(http://edge.adonisjs.com) template engine plugin
+Edge.js(http://edge.adonisjs.com) template engine plugin [![npm](https://img.shields.io/npm/v/gulp-edgejs.svg?style=flat-square)](https://www.npmjs.com/package/gulp-edgejs)
+[![npm](https://img.shields.io/npm/dt/gulp-edgejs.svg?style=flat-square)](https://www.npmjs.com/package/gulp-edgejs)
 
 ## Install
 ```sh
