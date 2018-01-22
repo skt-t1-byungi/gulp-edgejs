@@ -13,7 +13,7 @@ const gulp = require('gulp');
 const edge = require('gulp-edge');
 
 gulp.task('edge', ()=>{
-  return gulp.src('./index.twig')
+  return gulp.src('./index.edge')
     .pipe(edge())
     .pipe(gulp.dest('./build'));
 });
