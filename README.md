@@ -19,7 +19,23 @@ gulp.task('edge', ()=>{
 });
 ```
 
-### API
+### Variable
+```html
+<div>hello {{ name }}</div>
+```
+```js
+gulp.task('edge', ()=>{
+  return gulp.src('./hello.edge')
+    .pipe( edge({ name: 'byungi' }) )
+    .pipe(gulp.dest('./build'));
+});
+```
+output:
+```html
+<div>hello byungi</div>
+```
+
+## API
 ### edge(data?: object, path?: string)
 Returns tranform for edge.js compilation.
 
