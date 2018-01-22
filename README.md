@@ -10,7 +10,7 @@ yarn add gulp-edgejs
 ### Basic
 ```js
 const gulp = require('gulp');
-const edge = require('gulp-edge');
+const edge = require('gulp-edgejs');
 
 gulp.task('edge', ()=>{
   return gulp.src('./index.edge')
