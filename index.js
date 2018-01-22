@@ -2,7 +2,7 @@ const through = require('through2')
 const PluginError = require('plugin-error')
 const edge = require('edge.js')
 
-module.exports = function ({path, data: shareData} = {}) {
+module.exports = function (shareData, path) {
   return through.obj((file, enc, cb) => {
     if (file.isNull()) {
       return cb(null, file)

@@ -10,26 +10,21 @@ function template (name) {
 
 function assertEdge (file, regex) {
   const content = file.contents.toString().replace(/\n/g, '')
-
   assert.ok(regex.test(content))
 }
 
 test.cb('basic', t => {
   template('basic')
-    .pipe(gulpEdge({
-      data: { name: 'byungi' }
-    }))
+    .pipe(gulpEdge({ name: 'byungi' }))
     .on('data', file => {
       assertEdge(file, /<h1>hello byungi<\/h1>/)
       t.end()
     })
 })
 
-test.cb('include', t => {
+test.cb('include, partial', t => {
   template('include')
-    .pipe(gulpEdge({
-      data: { name: 'byungi' }
-    }))
+    .pipe(gulpEdge({ name: 'byungi' }))
     .on('data', file => {
       assertEdge(file, /<h1>.*?include test.*?<\/h1>/)
       t.end()
@@ -38,9 +33,7 @@ test.cb('include', t => {
 
 test.cb('layout, section', t => {
   template('section')
-    .pipe(gulpEdge({
-      data: { name: 'byungi' }
-    }))
+    .pipe(gulpEdge({ name: 'byungi' }))
     .on('data', file => {
       const regex = /<aside>.*<p>default<\/p>.*<p>sidebar<\/p><\/aside>.*<div class="content">.*<p>content/
       assertEdge(file, regex)
