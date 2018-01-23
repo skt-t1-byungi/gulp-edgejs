@@ -39,13 +39,17 @@ output:
 ```
 
 ## API
-### gulpEdge(data?: object, path?: string)
+### gulpEdge(data?: object, options?: object)
 Returns gulp tranform for edge.js compilation.
 
 #### data
 Set the variable value.
 
-#### path
+#### options
+##### ext
+The ext name to change. defaults "html"
+
+##### path
 Registers the views path to load views. Path must be absolute.
 
 ## License
