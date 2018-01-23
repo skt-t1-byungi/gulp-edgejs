@@ -13,11 +13,11 @@ yarn add gulp-edgejs
 ### Basic
 ```js
 const gulp = require('gulp');
-const edge = require('gulp-edgejs');
+const gulpEdge = require('gulp-edgejs');
 
 gulp.task('edge', ()=>{
   return gulp.src('./index.edge')
-    .pipe(edge())
+    .pipe( gulpEdge() )
     .pipe(gulp.dest('./build'));
 });
 ```
@@ -29,7 +29,7 @@ gulp.task('edge', ()=>{
 ```js
 gulp.task('edge', ()=>{
   return gulp.src('./hello.edge')
-    .pipe( edge({ name: 'byungi' }) )
+    .pipe( gulpEdge({ name: 'byungi' }) )
     .pipe(gulp.dest('./build'));
 });
 ```
@@ -39,8 +39,8 @@ output:
 ```
 
 ## API
-### edge(data?: object, path?: string)
-Returns tranform for edge.js compilation.
+### gulpEdge(data?: object, path?: string)
+Returns gulp tranform for edge.js compilation.
 
 #### data
 Set the variable value.

@@ -1,42 +1,54 @@
 import test from 'ava'
 import gulpEdge from '..'
+import through from 'through2'
 import vfs from 'vinyl-fs'
 import path from 'path'
-import assert from 'assert'
 
-function template (name) {
+function template (name, data) {
   return vfs.src(path.join(__dirname, 'templates', name + '.edge'))
-}
-
-function assertEdge (file, regex) {
-  const content = file.contents.toString().replace(/\n/g, '')
-  assert.ok(regex.test(content))
+    .pipe(gulpEdge(data))
+    .pipe(through.obj((file, enc, cb) => {
+      file.output = file.contents.toString().trim().replace(/\s+$/gm, '')
+      cb(null, file)
+    }))
 }
 
 test.cb('basic', t => {
-  template('basic')
-    .pipe(gulpEdge({ name: 'byungi' }))
+  template('basic', { name: 'byungi' })
     .on('data', file => {
-      assertEdge(file, /<h1>hello byungi<\/h1>/)
+      t.is(file.output, '<h1>hello byungi</h1>')
       t.end()
     })
 })
 
 test.cb('include, partial', t => {
+  const expect = `
+<h1>
+<div>include test</div>
+</h1>
+`.trim()
+
   template('include')
-    .pipe(gulpEdge({ name: 'byungi' }))
     .on('data', file => {
-      assertEdge(file, /<h1>.*?include test.*?<\/h1>/)
+      t.is(file.output, expect)
       t.end()
     })
 })
 
 test.cb('layout, section', t => {
+  const expect = `
+<aside>
+  <p>default</p>
+  <p>sidebar</p>
+</aside>
+<div class="content">
+  <p>content</p>
+</div>
+`.trim()
+
   template('section')
-    .pipe(gulpEdge({ name: 'byungi' }))
     .on('data', file => {
-      const regex = /<aside>.*<p>default<\/p>.*<p>sidebar<\/p><\/aside>.*<div class="content">.*<p>content/
-      assertEdge(file, regex)
+      t.is(file.output, expect)
       t.end()
     })
 })
