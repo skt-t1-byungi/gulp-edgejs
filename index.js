@@ -20,7 +20,7 @@ module.exports = function (data, options = {}) {
     try {
       file.contents = Buffer.from(edge.renderString(file.contents.toString(), data))
     } catch (error) {
-      return cb(new PluginError('gulp-edgejs', error))
+      return cb(new PluginError('gulp-edgejs', error, {fileName: file.path}))
     }
 
     cb(null, file)
