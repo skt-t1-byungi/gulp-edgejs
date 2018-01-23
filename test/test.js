@@ -17,6 +17,7 @@ test.cb('basic', t => {
   template('basic', { name: 'byungi' })
     .on('data', file => {
       t.is(file.output, '<h1>hello byungi</h1>')
+      t.regex(file.path, /\.html$/)
       t.end()
     })
 })
