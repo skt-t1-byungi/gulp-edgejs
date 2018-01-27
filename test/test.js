@@ -4,11 +4,17 @@ import through from 'through2'
 import vfs from 'vinyl-fs'
 import path from 'path'
 
-function template (name, data) {
+function escape (str) {
+  return (Array.isArray(str) ? str[0] : str)
+    .trim()
+    .replace(/(^\s+)|(\s+$)|\r?\n|\r/gm, '')
+}
+
+function template (name, data, options) {
   return vfs.src(path.join(__dirname, 'templates', name + '.edge'))
-    .pipe(gulpEdge(data))
+    .pipe(gulpEdge(data, options))
     .pipe(through.obj((file, enc, cb) => {
-      file.output = file.contents.toString().trim().replace(/\s+$/gm, '')
+      file.output = escape(file.contents.toString())
       cb(null, file)
     }))
 }
@@ -23,11 +29,10 @@ test.cb('basic', t => {
 })
 
 test.cb('include, partial', t => {
-  const expect = `
-<h1>
-<div>include test</div>
-</h1>
-`.trim()
+  const expect = escape`
+  <h1>
+    <div>include test</div>
+  </h1>`
 
   template('include')
     .on('data', file => {
@@ -37,17 +42,30 @@ test.cb('include, partial', t => {
 })
 
 test.cb('layout, section', t => {
-  const expect = `
-<aside>
-  <p>default</p>
-  <p>sidebar</p>
-</aside>
-<div class="content">
-  <p>content</p>
-</div>
-`.trim()
+  const expect = escape`
+  <aside>
+    <p>default</p>
+    <p>sidebar</p>
+  </aside>
+  <div class="content">
+    <p>content</p>
+  </div>`
 
   template('section')
+    .on('data', file => {
+      t.is(file.output, expect)
+      t.end()
+    })
+})
+
+test.cb('globals', t => {
+  const expect = escape`
+  <h1>4</h1>
+  <h1>1</h1>`
+
+  const globals = { sum: (a, b) => a + b, test: 1 }
+
+  template('globals', null, {globals})
     .on('data', file => {
       t.is(file.output, expect)
       t.end()

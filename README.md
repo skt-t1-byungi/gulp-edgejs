@@ -52,5 +52,8 @@ The ext name to change. defaults "html"
 ##### path
 Registers the views path to load views. Path must be absolute.
 
+##### globals
+Add global functions or variables.
+
 ## License
 MIT

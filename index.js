@@ -16,6 +16,7 @@ module.exports = function (data, options = {}) {
     data = Object.assign({}, data, file.data)
     edge.registerViews(options.path || file.base)
     file.path = replaceExt(file.path, '.' + (options.ext || 'html'))
+    Object.assign(edge._globals, options.globals)
 
     try {
       file.contents = Buffer.from(edge.renderString(file.contents.toString(), data))
