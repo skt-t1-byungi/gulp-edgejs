@@ -19,7 +19,7 @@ module.exports = function (data, options = {}) {
     file.path = replaceExt(file.path, '.' + (options.ext || 'html'))
 
     if (options.globals) {
-      Object.entries(options.globals || {}).forEach(([key, val]) => edge.global(key, val))
+      Object.entries(options.globals).forEach(([key, val]) => edge.global(key, val))
     }
 
     try {
