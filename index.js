@@ -14,14 +14,18 @@ module.exports = function (data, options = {}) {
     }
 
     data = Object.assign({}, data, file.data)
+
     edge.registerViews(options.path || file.base)
     file.path = replaceExt(file.path, '.' + (options.ext || 'html'))
-    Object.assign(edge._globals, options.globals)
+
+    if (options.globals) {
+      Object.entries(options.globals || {}).forEach(([key, val]) => edge.global(key, val))
+    }
 
     try {
       file.contents = Buffer.from(edge.renderString(file.contents.toString(), data))
-    } catch (error) {
-      return cb(new PluginError('gulp-edgejs', error, {fileName: file.path}))
+    } catch (err) {
+      return cb(new PluginError('gulp-edgejs', err, {fileName: file.path}))
     }
 
     cb(null, file)
