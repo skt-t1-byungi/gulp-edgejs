@@ -6,6 +6,8 @@ const {resolve, basename, extname} = require('path')
 const {silent: resolveFrom} = require('resolve-from')
 const importFresh = require('import-fresh')
 
+const cwd = process.cwd()
+
 module.exports = function (ctx, options = {}) {
   return through.obj((file, enc, cb) => {
     if (file.isNull()) {
@@ -36,12 +38,15 @@ module.exports = function (ctx, options = {}) {
 function resolveUserData (ctx, file) {
   if (typeof ctx !== 'string') return Object.assign({}, ctx, file.data)
 
+  let userData
   try {
-    return importFresh(
-      resolveFrom(process.cwd(), ctx) ||
-      resolveFrom(process.cwd(), resolve(ctx, basename(file.path, extname(file.path))))
+    userData = importFresh(
+      resolveFrom(cwd, ctx) ||
+      resolveFrom(cwd, resolve(ctx, basename(file.path, extname(file.path))))
     )
   } catch (err) {
-    return {}
+    userData = {}
   }
+
+  return Object.assign(userData, file.data)
 }
