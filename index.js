@@ -22,7 +22,7 @@ module.exports = function (data, options = {}) {
           resolveFrom(process.cwd(), resolve(data, basename(file.path, extname(file.path))))
         )
       } catch (err) {
-        return cb(new PluginError('gulp-edgejs', `can not find data file(${data}).`))
+        data = {}
       }
     } else {
       data = Object.assign({}, data, file.data)
