@@ -71,3 +71,19 @@ test.cb('globals', t => {
       t.end()
     })
 })
+
+test.cb('path data', t => {
+  template('pathData', path.resolve(__dirname, 'data/pathData.js'))
+    .on('data', file => {
+      t.is(file.output, '<h1>value : test</h1>')
+      t.end()
+    })
+})
+
+test.cb.only('dir data', t => {
+  template('pathData', path.resolve(__dirname, 'data'))
+    .on('data', file => {
+      t.is(file.output, '<h1>value : test</h1>')
+      t.end()
+    })
+})

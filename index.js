@@ -2,6 +2,8 @@ const through = require('through2')
 const PluginError = require('plugin-error')
 const replaceExt = require('replace-ext')
 const edge = require('edge.js')
+const {resolve, basename, extname} = require('path')
+const {silent: resolveFrom} = require('resolve-from')
 
 module.exports = function (data, options = {}) {
   return through.obj((file, enc, cb) => {
@@ -13,7 +15,18 @@ module.exports = function (data, options = {}) {
       return cb(new PluginError('gulp-edgejs', 'Streaming not supported!'))
     }
 
-    data = Object.assign({}, data, file.data)
+    if (typeof data === 'string') {
+      try {
+        data = require(
+          resolveFrom(process.cwd(), data) ||
+          resolveFrom(process.cwd(), resolve(data, basename(file.path, extname(file.path))))
+        )
+      } catch (err) {
+        return cb(new PluginError('gulp-edgejs', `can not find data file(${data}).`))
+      }
+    } else {
+      data = Object.assign({}, data, file.data)
+    }
 
     edge.registerViews(options.path || file.base)
     file.path = replaceExt(file.path, '.' + (options.ext || 'html'))

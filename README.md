@@ -39,8 +39,25 @@ output:
 ```
 
 ## API
-### gulpEdge(data?: object, options?: object)
+### gulpEdge(data?: object|string, options?: object)
 Returns gulp tranform for edge.js compilation.
+
+#### Data path
+If it is a data path, inject the file data.
+##### Exmaple
+```js
+  return gulp.src('edge/*.edge')
+    .pipe( gulpEdge('data/') )
+```
+`edge/main.edge`
+```
+hello {{ value }}
+```
+`data/main.js`
+```js
+export.value = 'world'
+```
+results `hello world`.
 
 #### data
 Set the variable value.
