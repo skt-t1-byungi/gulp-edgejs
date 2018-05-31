@@ -42,9 +42,12 @@ output:
 ### gulpEdge(data?: object|string, options?: object)
 Returns gulp tranform for edge.js compilation.
 
-#### Data path
+#### data
+Set the variable value.
+
+##### Data path
 If it is a data path, inject the file data.
-##### Exmaple
+###### Exmaple
 ```js
   return gulp.src('edge/*.edge')
     .pipe( gulpEdge('data/') )
@@ -58,9 +61,6 @@ hello {{ value }}
 export.value = 'world'
 ```
 results `hello world`.
-
-#### data
-Set the variable value.
 
 #### options
 ##### ext
