@@ -80,7 +80,7 @@ test.cb('path data', t => {
     })
 })
 
-test.cb.only('dir data', t => {
+test.cb('dir data', t => {
   template('pathData', path.resolve(__dirname, 'data'))
     .on('data', file => {
       t.is(file.output, '<h1>value : test</h1>')
