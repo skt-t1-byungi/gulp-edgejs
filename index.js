@@ -5,7 +5,7 @@ const edge = require('edge.js')
 const {resolve, basename, extname} = require('path')
 const {silent: resolveFrom} = require('resolve-from')
 
-module.exports = function (data, options = {}) {
+module.exports = function (ctx, options = {}) {
   return through.obj((file, enc, cb) => {
     if (file.isNull()) {
       return cb(null, file)
@@ -15,17 +15,18 @@ module.exports = function (data, options = {}) {
       return cb(new PluginError('gulp-edgejs', 'Streaming not supported!'))
     }
 
-    if (typeof data === 'string') {
+    let userData
+    if (typeof ctx === 'string') {
       try {
-        data = require(
-          resolveFrom(process.cwd(), data) ||
-          resolveFrom(process.cwd(), resolve(data, basename(file.path, extname(file.path))))
+        userData = require(
+          resolveFrom(process.cwd(), ctx) ||
+          resolveFrom(process.cwd(), resolve(ctx, basename(file.path, extname(file.path))))
         )
       } catch (err) {
-        data = {}
+        userData = {}
       }
     } else {
-      data = Object.assign({}, data, file.data)
+      userData = Object.assign({}, ctx, file.data)
     }
 
     edge.registerViews(options.path || file.base)
@@ -36,7 +37,7 @@ module.exports = function (data, options = {}) {
     }
 
     try {
-      file.contents = Buffer.from(edge.renderString(file.contents.toString(), data))
+      file.contents = Buffer.from(edge.renderString(file.contents.toString(), userData))
     } catch (err) {
       return cb(new PluginError('gulp-edgejs', err, {fileName: file.path}))
     }
