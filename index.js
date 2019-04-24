@@ -25,6 +25,10 @@ module.exports = function (ctx, options = {}) {
       Object.entries(options.globals).forEach(([key, val]) => edge.global(key, val))
     }
 
+    if (options.tags) {
+        options.tags.forEach((tag) => edge.tag(tag))
+    }
+
     try {
       file.contents = Buffer.from(edge.renderString(file.contents.toString(), resolveUserData(ctx, file)))
     } catch (err) {
