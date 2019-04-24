@@ -1,5 +1,5 @@
 # gulp-edgejs
-> Edge.js(http://edge.adonisjs.com) template engine 
+> Edge.js(http://edge.adonisjs.com) template engine
 
 [![npm](https://img.shields.io/npm/v/gulp-edgejs.svg?style=flat-square)](https://www.npmjs.com/package/gulp-edgejs)
 [![npm](https://img.shields.io/npm/dt/gulp-edgejs.svg?style=flat-square)](https://www.npmjs.com/package/gulp-edgejs)
@@ -71,6 +71,9 @@ Registers the views path to load views. Path must be absolute.
 
 ##### globals
 Add global functions or variables.
+
+##### tags
+Add custom tags array.
 
 ## License
 MIT
