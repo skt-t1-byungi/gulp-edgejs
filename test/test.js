@@ -3,6 +3,7 @@ import gulpEdge from '..'
 import through from 'through2'
 import vfs from 'vinyl-fs'
 import path from 'path'
+import SetTag from 'edge.js/src/Tags/SetTag'
 
 const template = (fileName, data, opts) => new Promise(resolve => {
     vfs.src(path.join(__dirname, `templates/${fileName}.edge`))
@@ -54,6 +55,17 @@ test('path data', async t => {
 
 test('dir data', async t => {
     const file = await template('pathData', path.resolve(__dirname, 'data'))
+    t.is(file.output, '<h1>value : test</h1>')
+})
+
+test('tags', async t => {
+    const testTag = new SetTag()
+    Object.defineProperty(testTag, 'tagName', {
+        get () {
+            return 'test'
+        }
+    })
+    const file = await template('tags', null, { tags: [testTag] })
     t.is(file.output, '<h1>value : test</h1>')
 })
 

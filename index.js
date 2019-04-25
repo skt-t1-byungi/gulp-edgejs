@@ -2,8 +2,8 @@ const through = require('through2')
 const PluginError = require('plugin-error')
 const replaceExt = require('replace-ext')
 const edge = require('edge.js')
-const {resolve, basename, extname} = require('path')
-const {silent: resolveFrom} = require('resolve-from')
+const { resolve, basename, extname } = require('path')
+const { silent: resolveFrom } = require('resolve-from')
 const importFresh = require('import-fresh')
 
 module.exports = function (data, options = {}) {
@@ -30,7 +30,7 @@ module.exports = function (data, options = {}) {
         try {
             file.contents = Buffer.from(edge.renderString(file.contents.toString(), resolveUserData(data, file)))
         } catch (err) {
-            return cb(new PluginError('gulp-edgejs', err, {fileName: file.path}))
+            return cb(new PluginError('gulp-edgejs', err, { fileName: file.path }))
         }
 
         cb(null, file)
