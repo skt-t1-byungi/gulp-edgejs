@@ -6,9 +6,7 @@ const {resolve, basename, extname} = require('path')
 const {silent: resolveFrom} = require('resolve-from')
 const importFresh = require('import-fresh')
 
-const cwd = process.cwd()
-
-module.exports = function (ctx, options = {}) {
+module.exports = function (data, options = {}) {
     return through.obj((file, enc, cb) => {
         if (file.isNull()) {
             return cb(null, file)
@@ -30,7 +28,7 @@ module.exports = function (ctx, options = {}) {
         }
 
         try {
-            file.contents = Buffer.from(edge.renderString(file.contents.toString(), resolveUserData(ctx, file)))
+            file.contents = Buffer.from(edge.renderString(file.contents.toString(), resolveUserData(data, file)))
         } catch (err) {
             return cb(new PluginError('gulp-edgejs', err, {fileName: file.path}))
         }
@@ -39,14 +37,16 @@ module.exports = function (ctx, options = {}) {
     })
 }
 
-function resolveUserData (ctx, file) {
-    if (typeof ctx !== 'string') return Object.assign({}, ctx, file.data)
+function resolveUserData (path, file) {
+    if (typeof path !== 'string') return Object.assign({}, Object(path), file.data)
+
+    const cwd = process.cwd()
 
     let userData
     try {
         userData = importFresh(
-            resolveFrom(cwd, ctx) ||
-      resolveFrom(cwd, resolve(ctx, basename(file.path, extname(file.path))))
+            resolveFrom(cwd, path) ||
+            resolveFrom(cwd, resolve(path, basename(file.path, extname(file.path))))
         )
     } catch (err) {
         userData = {}
