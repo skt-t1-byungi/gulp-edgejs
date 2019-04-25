@@ -4,86 +4,59 @@ import through from 'through2'
 import vfs from 'vinyl-fs'
 import path from 'path'
 
-function escape (str) {
-    return (Array.isArray(str) ? str[0] : str)
-        .trim()
-        .replace(/(^\s+)|(\s+$)|\r?\n|\r/gm, '')
-}
-
-function template (name, data, options) {
-    return vfs.src(path.join(__dirname, 'templates', name + '.edge'))
-        .pipe(gulpEdge(data, options))
-        .pipe(through.obj((file, enc, cb) => {
-            file.output = escape(file.contents.toString())
-            cb(null, file)
+const template = (fileName, data, opts) => new Promise(resolve => {
+    vfs.src(path.join(__dirname, `templates/${fileName}.edge`))
+        .pipe(gulpEdge(data, opts))
+        .pipe(through.obj(file => {
+            file.output = e(file.contents.toString())
+            resolve(file)
         }))
-}
-
-test.cb('basic', t => {
-    template('basic', { name: 'byungi' })
-        .on('data', file => {
-            t.is(file.output, '<h1>hello byungi</h1>')
-            t.regex(file.path, /\.html$/)
-            t.end()
-        })
 })
 
-test.cb('include, partial', t => {
-    const expect = escape`
-  <h1>
+test('basic', async t => {
+    const file = await template('basic', { name: 'byungi' })
+    t.is(file.output, '<h1>hello byungi</h1>')
+    t.regex(file.path, /\.html$/)
+})
+
+test('include, partial', async t => {
+    const file = await template('include')
+    t.is(file.output, e`
+<h1>
     <div>include test</div>
-  </h1>`
-
-    template('include')
-        .on('data', file => {
-            t.is(file.output, expect)
-            t.end()
-        })
+</h1>`)
 })
 
-test.cb('layout, section', t => {
-    const expect = escape`
-  <aside>
+test('layout, section', async t => {
+    const file = await template('section')
+    t.is(file.output, e`
+<aside>
     <p>default</p>
     <p>sidebar</p>
-  </aside>
-  <div class="content">
+</aside>
+<div class="content">
     <p>content</p>
-  </div>`
-
-    template('section')
-        .on('data', file => {
-            t.is(file.output, expect)
-            t.end()
-        })
+</div>`)
 })
 
-test.cb('globals', t => {
-    const expect = escape`
-  <h1>4</h1>
-  <h1>1</h1>`
-
+test('globals', async t => {
     const globals = { sum: (a, b) => a + b, test: 1 }
-
-    template('globals', null, {globals})
-        .on('data', file => {
-            t.is(file.output, expect)
-            t.end()
-        })
+    const file = await template('globals', null, { globals })
+    t.is(file.output, e`
+<h1>4</h1>
+<h1>1</h1>`)
 })
 
-test.cb('path data', t => {
-    template('pathData', path.resolve(__dirname, 'data/pathData.js'))
-        .on('data', file => {
-            t.is(file.output, '<h1>value : test</h1>')
-            t.end()
-        })
+test('path data', async t => {
+    const file = await template('pathData', path.resolve(__dirname, 'data/pathData.js'))
+    t.is(file.output, '<h1>value : test</h1>')
 })
 
-test.cb('dir data', t => {
-    template('pathData', path.resolve(__dirname, 'data'))
-        .on('data', file => {
-            t.is(file.output, '<h1>value : test</h1>')
-            t.end()
-        })
+test('dir data', async t => {
+    const file = await template('pathData', path.resolve(__dirname, 'data'))
+    t.is(file.output, '<h1>value : test</h1>')
 })
+
+function e (str) {
+    return (Array.isArray(str) ? str[0] : str).replace(/(^\s+)|(\s+$)|\r?\n|\r/gm, '')
+}
