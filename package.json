@@ -1,42 +1,42 @@
 {
-  "name": "gulp-edgejs",
-  "description": "Edge.js(http://edge.adonisjs.com) template engine",
-  "version": "0.2.4",
-  "main": "index.js",
-  "license": "MIT",
-  "author": {
-    "name": "skt-t1-byungi",
-    "email": "tiniwz@gmail.com"
-  },
-  "keywords": [
-    "edge",
-    "edge.js",
-    "gulp",
-    "gulpplugin",
-    "gulp-plugin"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/skt-t1-byungi/gulp-edgejs.git"
-  },
-  "scripts": {
-    "test": "ava test/test.js"
-  },
-  "dependencies": {
-    "edge.js": "^1.1.4",
-    "import-fresh": "^2.0.0",
-    "plugin-error": "^1.0.0",
-    "replace-ext": "^1.0.0",
-    "resolve-from": "^4.0.0",
-    "through2": "^2.0.3"
-  },
-  "devDependencies": {
-    "ava": "^0.25.0",
-    "eslint": "^4.16.0",
-    "eslint-config-byungi": "^0.0.12",
-    "vinyl-fs": "^3.0.1"
-  },
-  "eslintConfig": {
-    "extends": "byungi"
-  }
+    "name": "gulp-edgejs",
+    "description": "Edge.js(http://edge.adonisjs.com) template engine",
+    "version": "0.2.4",
+    "main": "index.js",
+    "license": "MIT",
+    "author": {
+        "name": "skt-t1-byungi",
+        "email": "tiniwz@gmail.com"
+    },
+    "keywords": [
+        "edge",
+        "edge.js",
+        "gulp",
+        "gulpplugin",
+        "gulp-plugin"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/skt-t1-byungi/gulp-edgejs.git"
+    },
+    "scripts": {
+        "test": "ava test/test.js"
+    },
+    "dependencies": {
+        "edge.js": "^1.1.4",
+        "import-fresh": "^3.0.0",
+        "plugin-error": "^1.0.0",
+        "replace-ext": "^1.0.0",
+        "resolve-from": "^5.0.0",
+        "through2": "^3.0.1"
+    },
+    "devDependencies": {
+        "ava": "^1.4.1",
+        "eslint": "^5.16.0",
+        "eslint-config-byungi": "^0.2.9",
+        "vinyl-fs": "^3.0.1"
+    },
+    "eslintConfig": {
+        "extends": "byungi"
+    }
 }
