@@ -39,15 +39,23 @@ output:
 ```
 
 ## API
-### gulpEdge(data?: object|string, options?: object)
-Returns gulp tranform for edge.js compilation.
+### gulpEdge(data[, options])
+Returns gulp transformer for edge.js compilation.
 
 #### data
-Set the variable value.
+Set the data values.
 
-##### Data path
-If it is a data path, inject the file data.
-###### Exmaple
+##### file path
+Set the data of the file.
+
+```js
+  return gulp.src('edge/*.edge')
+    .pipe( gulpEdge('./data.json') )
+```
+
+##### directory path
+If it is a directory path, set the data that matches the edge.js file name in the directory.
+
 ```js
   return gulp.src('edge/*.edge')
     .pipe( gulpEdge('data/') )
@@ -60,20 +68,28 @@ hello {{ value }}
 ```js
 export.value = 'world'
 ```
-results `hello world`.
-
+results:
+```
+hello world`
+```
 #### options
 ##### ext
-The ext name to change. defaults "html"
+Output extension name. Default is "html"
+
+##### views
+Directory for load other view files. (edge.js can load other view files with `@layout`, `@component` keyword.)
 
 ##### path
-Registers the views path to load views. Path must be absolute.
+An alias for `views`.
 
 ##### globals
-Add global functions or variables.
+Add global function or variable.
 
 ##### tags
-Add custom tags array.
+Add custom tags.
+
+#### refresh
+If this value is true, import new data from the path without cache. Default is `false`.
 
 ## License
 MIT
