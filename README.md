@@ -70,11 +70,11 @@ export.value = 'world'
 ```
 results:
 ```
-hello world`
+hello world
 ```
 #### options
 ##### ext
-Output extension name. Default is "html"
+Output extension name. Default is `html`
 
 ##### views
 Directory for load other view files. (edge.js can load other view files with `@layout`, `@component` keyword.)
@@ -89,7 +89,7 @@ Add global function or variable.
 Add custom tags.
 
 #### refresh
-If this value is true, import new data from the path without cache. Default is `false`.
+If this value is true, import new data from the path without cache. This is useful when in watch mode.  Default is `false`.
 
 ## License
 MIT
