@@ -31,7 +31,7 @@
         "through2": "^3.0.1"
     },
     "devDependencies": {
-        "ava": "^1.4.1",
+        "ava": "^2.1.0",
         "eslint": "^5.16.0",
         "eslint-config-byungi": "^0.2.9",
         "vinyl-fs": "^3.0.1"
