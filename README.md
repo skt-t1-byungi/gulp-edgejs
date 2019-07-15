@@ -28,7 +28,7 @@ gulp.task('edge', ()=>{
 ```
 ```js
 gulp.task('edge', ()=>{
-  return gulp.src('./hello.edge')
+  return gulp.src('./index.edge')
     .pipe( gulpEdge({ name: 'byungi' }) )
     .pipe(gulp.dest('./build'));
 });
@@ -39,22 +39,26 @@ output:
 ```
 
 ## API
-### gulpEdge(data[, options])
+### gulpEdge([data[, options]])
 Returns gulp transformer for edge.js compilation.
 
 #### data
 Set the data values.
 
-##### file path
-Set the data of the file.
-
+##### object
 ```js
-  return gulp.src('edge/*.edge')
+gulp.src('./index.edge')
+    .pipe( gulpEdge({ name: 'byungi' }) )
+```
+
+##### file
+```js
+  return gulp.src('index.edge')
     .pipe( gulpEdge('./data.json') )
 ```
 
-##### directory path
-If it is a directory path, set the data that matches the edge.js file name in the directory.
+##### directory
+If it is a `directory`, set the data that matches the edge.js file name in the directory.
 
 ```js
   return gulp.src('edge/*.edge')
@@ -68,7 +72,7 @@ hello {{ value }}
 ```js
 export.value = 'world'
 ```
-results:
+output:
 ```
 hello world
 ```
