@@ -1,7 +1,7 @@
 {
     "name": "gulp-edgejs",
     "description": "Edge.js(http://edge.adonisjs.com) template engine",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "main": "index.js",
     "license": "MIT",
     "author": {
