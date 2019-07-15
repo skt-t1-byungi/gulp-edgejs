@@ -31,8 +31,11 @@ module.exports = function (data, opts = {}) {
             data = Object.assign(Object(data), file.data)
         }
 
+        if (file.path) {
+            file.path = replaceExt(file.path, opts.ext === '' ? '' : '.' + (opts.ext || 'html'))
+        }
+
         edge.registerViews(opts.views || opts.path || file.base)
-        file.path = replaceExt(file.path, opts.ext === '' ? '' : '.' + (opts.ext || 'html'))
 
         try {
             file.contents = Buffer.from(edge.renderString(String(file.contents), data))
